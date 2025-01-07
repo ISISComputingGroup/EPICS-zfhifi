@@ -1,0 +1,7 @@
+file zfhifi_field_axis.template {
+
+pattern {P, AXIS}
+  {"\$(P)", "X"}
+  {"\$(P)", "Y"}
+  {"\$(P)", "Z"}
+}
