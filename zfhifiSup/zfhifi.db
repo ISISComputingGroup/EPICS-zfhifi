@@ -1,0 +1,335 @@
+record(bo, "$(P)DISABLE")
+{
+  field(DESC, "Disable comms")
+  field(PINI, "YES")
+  field(VAL, "$(DISABLE=0)")
+  field(OMSL, "supervisory")
+  field(ZNAM, "COMMS ENABLED")
+  field(ONAM, "COMMS DISABLED")
+  
+  info(archive, "5.0 VAL")
+}
+
+# Enable *very* verbose logging in the state machine.
+#
+# This is only intended to be turned on briefly to investigate issues,
+# not left on permanently as it would fill up the instrument hard drives
+# with it's log output. This is why being in debug mode is considered a 
+# MINOR alarm.
+record(bo, "$(P)DEBUG")
+{
+  field(DESC, "Debug mode")
+  field(PINI, "YES")
+  field(VAL, "0")
+  field(OMSL, "supervisory")
+  field(ZNAM, "Debug disabled")
+  field(ONAM, "Debug enabled")  
+  field(OSV, "MINOR")
+  
+  info(archive, "5.0 VAL")
+}
+
+# 1 if new readings are available from the magnetometer but have not yet been consumed
+# by the state machine.
+record(bo, "$(P)_READINGS_READY") {
+  field(VAL, "0")
+}
+
+record(mbbo, "$(P)STATEMACHINE:STATE") {
+  field(DESC, "What the IOC is doing")
+  
+  field(ZRST, "initializing")
+  field(ONST, "trigger_mag_read")
+  field(TWST, "wait_for_mag_read")
+  field(THST, "check_corrected_field")
+  field(FRST, "check_raw_field")
+  field(FVST, "check_auto_feedback")
+  field(SXST, "check_output_psu_state")
+  field(SVST, "write_to_psu")
+  field(EIST, "check_psu_writes")
+  field(NIST, "wait_before_read")
+  field(TEST, "ensure_mode_current")
+  field(ELST, "wait_for_mode_current")
+  field(TVST, "ensure_outputs_on")
+  field(TTST, "wait_for_outputs_on")
+  field(FTST, "ensure_voltage_limits")
+  field(FFST, "wait_for_voltage_limits")
+    
+  # Do not archive unless needed for debugging - this PV can change very quickly (~100Hz)
+  # info(archive, "5.0 VAL")
+}
+
+record(bi, "$(P)STATEMACHINE:ACTIVITY") {
+  field(DESC, "Blinking if IOC is active")
+}
+
+record(ao, "$(P)STATEMACHINE:LOOP_TIME") {
+  field(DESC, "Time between magnetometer triggers")
+  field(EGU, "ms")
+  field(PREC, "0")
+  
+  field(HIHI, "5000")
+  field(LOLO, "1")
+  field(HHSV, "MINOR")
+  field(LLSV, "MINOR")
+  
+  # Only log if changes by more than 5ms, otherwise database could fill with small fluctuations.
+  field(ADEL, "5")
+  info(archive, "5.0 VAL")
+  info(alarm, "ZFHIFI")
+  info(interest, "LOW")
+}
+
+record(ao, "$(P)STATEMACHINE:READ_TIME") {
+  field(DESC, "Time for magnetometer read")
+  field(EGU, "ms")
+  field(PREC, "1")
+  
+  field(HIHI, "100")
+  field(LOLO, "0")
+  field(HHSV, "MINOR")
+  field(LLSV, "MINOR")
+  
+  # Only log if changes by more than 10ms, otherwise database could fill with small fluctuations.
+  field(ADEL, "5")
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+record(ao, "$(P)STATEMACHINE:WRITE_TIME") {
+  field(DESC, "Time for PSU write")
+  field(EGU, "ms")
+  field(PREC, "1")
+  
+  field(HIHI, "100")
+  field(LOLO, "0")
+  field(HHSV, "MINOR")
+  field(LLSV, "MINOR")
+  
+  field(VAL, "0")
+  field(PINI, "YES")
+  
+  # Only log if changes by more than 10ms, otherwise database could fill with small fluctuations.
+  field(ADEL, "5")
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+record(ao, "$(P)STATEMACHINE:CHECK_TIME") {
+  field(DESC, "Time to check PSU write")
+  field(EGU, "ms")
+  field(PREC, "1")
+  
+  field(HIHI, "15000")
+  field(LOLO, "0")
+  field(HHSV, "MINOR")
+  field(LLSV, "MINOR")
+  
+  field(VAL, "0")
+  field(PINI, "YES")
+  
+  # Only log if changes by more than 10ms, otherwise database could fill with small fluctuations.
+  field(ADEL, "5")
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+# Sleep after each statemachine loop. Making this too small will mean the 
+# power supplies and/or magnetometer cannot keep up with the command rate
+# CRYOSMS can at best take ~4 commands / sec, but that's not accounting for any
+# actual psu ramp time.
+record(ao, "$(P)STATEMACHINE:LOOP_DELAY")
+{
+  field(DESC, "Wait between statemachine loops")
+  field(EGU, "ms")
+  field(VAL, "2000")
+  field(PINI, "YES")
+  field(PREC, "0")
+  
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+# Arbitrary wait after measuring magnetometers before moving on
+record(ao, "$(P)STATEMACHINE:POST_MEAS_DELAY")
+{
+  field(DESC, "Wait after measure")
+  field(EGU, "s")
+  field(VAL, "0.05")
+  field(PINI, "YES")
+  field(PREC, "0")
+  
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+# Used for:
+#  - acquiring magnetometer readings
+record(ao, "$(P)STATEMACHINE:READ_TIMEOUT")
+{
+  field(EGU, "s")
+  field(VAL, "2")
+  field(PINI, "YES")
+  field(PREC, "0")
+  
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+# Used for:
+#  - checking new current setpoint has been actioned by PSU
+record(ao, "$(P)STATEMACHINE:WRITE_TIMEOUT")
+{
+  field(EGU, "s")
+  field(VAL, "60")
+  field(PINI, "YES")
+  field(PREC, "0")
+  
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+record(mbbi, "$(P)AT_SETPOINT") {
+  field(DESC, "Is measurement within tolerance of SP")
+  field(ZRST, "No")
+  field(ZRSV, "MAJOR")
+  field(ONST, "Yes")
+  # N/A is set when autofeedback is off
+  field(TWST, "N/A")
+  
+  info(interest, "HIGH")
+  info(archive, "5.0 VAL")
+  info(alarm, "ZFHIFI")
+}
+
+record(bo, "$(P)AUTOFEEDBACK") {
+  field(DESC, "Mode of ZF system")
+  field(ZNAM, "Manual")
+  field(ONAM, "Auto-feedback")
+  
+  # There is a requirement to force manual mode on IOC start.
+  $(IFNOTSAVEFEEDBACKMODE) field(VAL, "0")
+  field(PINI, "YES")
+  # We have put this in pass0 so it's restored quickly.
+  $(IFSAVEFEEDBACKMODE) info(autosaveFields_pass0, "VAL")
+  
+  info(interest, "HIGH")
+  info(archive, "5.0 VAL")
+}
+
+alias("$(P)AUTOFEEDBACK", "$(P)AUTOFEEDBACK:SP")
+
+record(ao, "$(P)FEEDBACK") {
+    field(PREC, "4")
+	field(EGU, "")  # Unitless
+	field(PINI, "YES")
+	field(VAL, "1.0")
+  
+    info(interest, "HIGH")
+    info(archive, "5.0 VAL")
+}
+
+record(ao, "$(P)TOLERANCE") {
+  field(DESC, "Tolerance for 'AT_SETPOINT' field")
+  field(EGU, "G")
+  field(PREC, "5")
+  field(VAL, "0.01")
+  field(PINI, "YES")
+  
+  info(interest, "HIGH")
+  info(archive, "5.0 VAL")
+}
+
+# Any changes to this PV will also need reflecting in the sequencer .st file.
+record(mbbo, "$(P)STATUS") {
+  field(DESC, "Status of ZF system")
+  
+  field(ZRST, "No error")
+  field(ZRSV, "NO_ALARM")
+  
+  field(ONST, "No new magnetometer data")
+  field(ONSV, "INVALID")
+  
+  field(TWST, "Magnetometer data invalid")
+  field(TWSV, "INVALID")
+  
+  field(THST, "Magnetometer data invalid")
+  field(THSV, "NO_ALARM")
+  
+  field(FRST, "Power supply invalid")
+  field(FRSV, "INVALID")
+  
+  field(FVST, "Power supply on limits")
+  field(FVSV, "MAJOR")
+  
+  field(SXST, "Power supply write failed")
+  field(SXSV, "INVALID")
+  
+  field(SVST, "PSU high limit<low limit")
+  field(SVSV, "MAJOR")
+  
+  field(EIST, "PSU sp_rbv out of range")
+  field(EISV, "MAJOR")
+  
+  info(interest, "HIGH")
+  info(archive, "VAL SEVR")
+  info(alarm, "ZFHIFI")
+}
+
+record(calc, "$(P)FIELD:MAGNITUDE") {
+  field(DESC, "Magnitude of corrected field")
+  field(INPA, "$(P)FIELD:X CP MS")
+  field(INPB, "$(P)FIELD:Y CP MS")
+  field(INPC, "$(P)FIELD:Z CP MS")
+  field(CALC, "SQRT(A*A + B*B + C*C)")
+  field(EGU, "G")
+  field(PREC, "5")
+  info(archive, "5.0 VAL")
+  info(alarm, "ZFHIFI")
+  info(interest, "HIGH")
+  field(ASG, "READONLY")
+}
+
+record(fanout, "$(P)TRIGGER_READINGS") {
+    field(LNK1, "$(P)MAGNETOMETER:X1:TRIGGER.PROC")
+    field(LNK2, "$(P)MAGNETOMETER:Y1:TRIGGER.PROC")
+    field(LNK3, "$(P)MAGNETOMETER:Z1:TRIGGER.PROC")
+    field(LNK4, "$(P)MAGNETOMETER:X2:TRIGGER.PROC")
+    field(LNK5, "$(P)MAGNETOMETER:Y2:TRIGGER.PROC")
+    field(LNK6, "$(P)MAGNETOMETER:Z2:TRIGGER.PROC")
+}
+
+record(calc, "$(P)READINGS_READY") {
+    field(INPA, "$(P)MAGNETOMETER:X1:READINGS_READY CP MSS")
+    field(INPB, "$(P)MAGNETOMETER:Y1:READINGS_READY CP MSS")
+    field(INPC, "$(P)MAGNETOMETER:Z1:READINGS_READY CP MSS")
+    field(INPD, "$(P)MAGNETOMETER:X2:READINGS_READY CP MSS")
+    field(INPE, "$(P)MAGNETOMETER:Y2:READINGS_READY CP MSS")
+    field(INPF, "$(P)MAGNETOMETER:Z2:READINGS_READY CP MSS")
+    field(CALC, "A&&B&&C&&D&&E&&F")
+}
+
+record(dfanout, "$(P)READINGS_READY:SP") {
+    field(OUTA, "$(P)MAGNETOMETER:X1:READINGS_READY PP")
+    field(OUTB, "$(P)MAGNETOMETER:Y1:READINGS_READY PP")
+    field(OUTC, "$(P)MAGNETOMETER:Z1:READINGS_READY PP")
+    field(OUTD, "$(P)MAGNETOMETER:X2:READINGS_READY PP")
+    field(OUTE, "$(P)MAGNETOMETER:Y2:READINGS_READY PP")
+    field(OUTF, "$(P)MAGNETOMETER:Z2:READINGS_READY PP")
+}
+
+record(ao, "$(P)OUTPUT:PSU_WRITE_TOLERANCE") {
+    field(EGU, "G")
+    field(VAL, "0.01")
+    field(PINI, "YES")
+    field(PREC, "5")
+}
+
+record(calc, "$(P)PERSISTENT_GRADIENT") {
+    # Only along Y axis.
+    field(INPA, "$(P)MAGNETOMETER:Y1:CORR_INH CP MSS")
+    field(INPB, "$(P)MAGNETOMETER:Y2:CORR_INH CP MSS")
+    field(CALC, "B-A")
+    field(EGU, "G")
+    field(PREC, "5")
+}

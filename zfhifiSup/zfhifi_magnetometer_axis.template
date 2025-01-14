@@ -1,0 +1,106 @@
+record(ai, "$(P)MAGNETOMETER:$(AXIS):RAW") {
+  field(DESC, "Measured field $(AXIS)")
+  field(INP, "$(MAGNETOMETER_$(AXIS)):FIELD CA MSS")
+  field(EGU, "G")
+  field(PREC, "5")
+}
+
+# Tell the group3hallprobe to take a new reading
+record(calcout, "$(P)MAGNETOMETER:$(AXIS):TRIGGER") {
+  field(A, "1")
+  field(OOPT, "Every Time")
+  field(OUT, "$(MAGNETOMETER_$(AXIS)):TRIGGER.PROC CA")
+}
+
+# Processed externally (from g3hallprobe IOC) when a new reading has been taken
+record(calcout, "$(P)MAGNETOMETER:$(AXIS):READINGS_UPDATED") {
+  field(A, "1")
+  field(CALC, "A")
+  field(OUT, "$(P)MAGNETOMETER:$(AXIS):READINGS_READY PP")
+  field(OOPT, "Every Time")
+  field(FLNK, "$(P)MAGNETOMETER:$(AXIS):RAW")
+}
+
+record(bo, "$(P)MAGNETOMETER:$(AXIS):READINGS_READY") {
+  field(ZNAM, "No")
+  field(ONAM, "Yes")
+}
+
+
+##
+## Corrections
+##
+
+record(ao, "$(P)MAGNETOMETER:$(AXIS):INH_X") {
+    field(DESC, "Inhomogenity $(AXIS)_X")
+    field(PINI, "YES")
+	field(PREC, "5")
+}
+
+record(ao, "$(P)MAGNETOMETER:$(AXIS):INH_Y") {
+    field(DESC, "Inhomogenity $(AXIS)_Y")
+    field(PINI, "YES")
+	field(PREC, "5")
+}
+
+record(ao, "$(P)MAGNETOMETER:$(AXIS):INH_Z") {
+    field(DESC, "Inhomogenity $(AXIS)_Z")
+    field(PINI, "YES")
+	field(PREC, "5")
+}
+
+record(ao, "$(P)MAGNETOMETER:$(AXIS):PERSIST_GRAD") {
+    field(DESC, "Persistent gradient $(AXIS)")
+    field(PINI, "YES")
+	field(PREC, "5")
+}
+
+record(ao, "$(P)MAGNETOMETER:$(AXIS):OFFSET") {
+    field(PINI, "YES")
+	field(PREC, "5")
+}
+
+record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_INH") {
+    field(DESC, "Inhomogenity correction")
+    field(INPA, "$(P)MAGNETOMETER:$(AXIS):RAW CP MSS")
+	
+	# No MSS as that would make "magnetometer data invalid" when really it's "PSU invalid"
+    field(INPB, "$(P)OUTPUT:X CP")
+    field(INPC, "$(P)OUTPUT:Y CP")
+    field(INPD, "$(P)OUTPUT:Z CP")
+	
+    field(INPE, "$(P)MAGNETOMETER:$(AXIS):INH_X CP MSS")
+    field(INPF, "$(P)MAGNETOMETER:$(AXIS):INH_Y CP MSS")
+    field(INPG, "$(P)MAGNETOMETER:$(AXIS):INH_Z CP MSS")
+    
+    field(CALC, "A - ((B*E) + (C*F) + (D*G))")
+	field(PREC, "5")
+	field(EGU, "G")
+}
+
+record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_COILS") {
+    field(INPA, "$(P)MAGNETOMETER:$(AXIS):CORR_INH CP MSS")
+    field(INPB, "$(P)OUTPUT:$(PSU_AXIS) CP MSS")
+    field(CALC, "A+B")
+	field(PREC, "5")
+	field(EGU, "G")
+}
+
+record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_PERSIST") {
+    field(INPA, "$(P)MAGNETOMETER:$(AXIS):CORR_INH CP MSS")
+    field(INPB, "$(P)MAGNETOMETER:$(AXIS):PERSIST_GRAD CP MSS")
+    field(INPC, "$(P)PERSISTENT_GRADIENT")
+    field(CALC, "A - (B * C)")
+	field(PREC, "5")
+	field(EGU, "G")
+}
+
+record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_OFFSET") {
+    field(INPA, "$(P)MAGNETOMETER:$(AXIS):CORR_PERSIST CP MSS")
+    field(INPB, "$(P)MAGNETOMETER:$(AXIS):OFFSET CP MSS")
+    field(CALC, "A + B")
+	field(PREC, "5")
+	field(EGU, "G")
+}
+
+alias("$(P)MAGNETOMETER:$(AXIS):CORR_OFFSET", "$(P)MAGNETOMETER:$(AXIS)")

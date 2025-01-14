@@ -1,0 +1,10 @@
+file zfhifi_magnetometer_axis.template {
+
+pattern {P, AXIS, PSU_AXIS}
+  {"\$(P)", "X1", "X"}
+  {"\$(P)", "Y1", "Y"}
+  {"\$(P)", "Z1", "Z"}
+  {"\$(P)", "X2", "X"}
+  {"\$(P)", "Y2", "Y"}
+  {"\$(P)", "Z2", "Z"}
+}

@@ -1,0 +1,50 @@
+record(calc, "$(P)FIELD:$(AXIS)") {
+    field(INPA, "$(P)MAGNETOMETER:$(AXIS)1 CP MSS")
+    field(INPB, "$(P)MAGNETOMETER:$(AXIS)2 CP MSS")
+    field(CALC, "(A+B)/2")
+    field(DESC, "Field $(AXIS) (corrected)")
+    field(EGU, "G")
+    field(PREC, "5")
+}
+
+record(ao, "$(P)FIELD:$(AXIS):SP") {
+    field(DESC, "Field $(AXIS) setpoint")
+    field(EGU, "G")
+    field(PREC, "5")
+    field(UDFS, "NO_ALARM")
+    
+    info(archive, "5.0 VAL")
+}
+
+record(ai, "$(P)OUTPUT:$(AXIS)") {
+    field(INP, "$(PSU_$(AXIS)):OUTPUT CP MSS")
+    field(LOLO, "$(PSU_$(AXIS)_MIN)")
+    field(HIHI, "$(PSU_$(AXIS)_MAX)")
+    field(LLSV, "MAJOR")
+    field(HHSV, "MAJOR")
+	field(PREC, "5")
+	field(EGU, "G")
+}
+
+record(bi, "$(P)OUTPUT:$(AXIS):READY") {
+    field(INP, "$(PSU_$(AXIS)):READY CP MSS")
+    field(ZNAM, "Not ready")
+    field(ONAM, "Ready")
+}
+
+record(ao, "$(P)OUTPUT:$(AXIS):SP") {
+    field(OUT, "$(PSU_$(AXIS)):TARGET:SP PP")
+    field(DRVL, "$(PSU_$(AXIS)_MIN)")
+    field(DRVH, "$(PSU_$(AXIS)_MAX)")
+    field(FLNK, "$(P)OUTPUT:$(AXIS):START")
+	field(PREC, "5")
+	field(EGU, "G")
+}
+
+# Have to explicitly tell cryomag to "go"
+# (it doesn't seem to follow usual SP_NO_ACTION pattern)
+record(calcout, "$(P)OUTPUT:$(AXIS):START") {
+    field(A, "1")
+    field(CALC, "A")
+    field(OUT, "$(PSU_$(AXIS)):START:SP PP")
+}
