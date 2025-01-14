@@ -143,7 +143,7 @@ ss zero_field
       ZF_TRANSITION_TO_STATE("check_corrected_field");
     }
     
-    when(delay(0.1)) {  /* TOM TODO: make this configurable */
+    when(delay(post_meas_delay)) {
       if (!auto_feedback_enabled) {
         PVPUT(at_setpoint, 2);
       } else {

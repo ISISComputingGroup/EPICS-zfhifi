@@ -58,6 +58,7 @@ PV(double, statemachine_measured_check_time, "{P}STATEMACHINE:CHECK_TIME", NoMon
 PV(double, loop_delay, "{P}STATEMACHINE:LOOP_DELAY", Monitor); /* msec */
 PV(double, read_timeout, "{P}STATEMACHINE:READ_TIMEOUT", Monitor); /* sec */
 PV(double, write_timeout, "{P}STATEMACHINE:WRITE_TIMEOUT", Monitor); /* sec */
+PV(double, post_meas_delay, "{P}STATEMACHINE:POST_MEAS_DELAY", Monitor); /* sec */
 
 PV(int, status, "{P}STATUS", NoMon);
 PV(int, at_setpoint, "{P}AT_SETPOINT", NoMon);

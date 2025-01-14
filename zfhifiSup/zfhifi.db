@@ -142,7 +142,20 @@ record(ao, "$(P)STATEMACHINE:LOOP_DELAY")
 {
   field(DESC, "Wait between statemachine loops")
   field(EGU, "ms")
-  field(VAL, "1000")
+  field(VAL, "2000")
+  field(PINI, "YES")
+  field(PREC, "0")
+  
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
+# Arbitrary wait after measuring magnetometers before moving on
+record(ao, "$(P)STATEMACHINE:POST_MEAS_DELAY")
+{
+  field(DESC, "Wait after measure")
+  field(EGU, "s")
+  field(VAL, "0.05")
   field(PINI, "YES")
   field(PREC, "0")
   
