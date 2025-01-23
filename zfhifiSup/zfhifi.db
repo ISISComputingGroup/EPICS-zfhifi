@@ -68,7 +68,7 @@ record(ao, "$(P)STATEMACHINE:LOOP_TIME") {
   field(EGU, "ms")
   field(PREC, "0")
   
-  field(HIHI, "5000")
+  field(HIHI, "60000")
   field(LOLO, "1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
@@ -85,8 +85,8 @@ record(ao, "$(P)STATEMACHINE:READ_TIME") {
   field(EGU, "ms")
   field(PREC, "1")
   
-  field(HIHI, "100")
-  field(LOLO, "0")
+  field(HIHI, "500")
+  field(LOLO, "-1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
   
@@ -102,7 +102,7 @@ record(ao, "$(P)STATEMACHINE:WRITE_TIME") {
   field(PREC, "1")
   
   field(HIHI, "100")
-  field(LOLO, "0")
+  field(LOLO, "-1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
   
@@ -120,8 +120,8 @@ record(ao, "$(P)STATEMACHINE:CHECK_TIME") {
   field(EGU, "ms")
   field(PREC, "1")
   
-  field(HIHI, "15000")
-  field(LOLO, "0")
+  field(HIHI, "50000")
+  field(LOLO, "-1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
   
@@ -142,7 +142,7 @@ record(ao, "$(P)STATEMACHINE:LOOP_DELAY")
 {
   field(DESC, "Wait between statemachine loops")
   field(EGU, "ms")
-  field(VAL, "2000")
+  field(VAL, "3000")
   field(PINI, "YES")
   field(PREC, "0")
   
