@@ -207,9 +207,9 @@ ss zero_field
       double new_x, new_y, new_z, coerced_x, coerced_y, coerced_z;
 	  int x_on_limit, y_on_limit, z_on_limit;
 
-      new_x = output_psu_x + (setpoint_x - magnetometer_x) * feedback;
-      new_y = output_psu_y + (setpoint_y - magnetometer_y) * feedback;
-      new_z = output_psu_z + (setpoint_z - magnetometer_z) * feedback;
+      new_x = output_psu_x_sp_rbv + (setpoint_x - magnetometer_x) * feedback;
+      new_y = output_psu_y_sp_rbv + (setpoint_y - magnetometer_y) * feedback;
+      new_z = output_psu_z_sp_rbv + (setpoint_z - magnetometer_z) * feedback;
       
       coerced_x = coerce_to_range(new_x, output_psu_x_sp_drvl, output_psu_x_sp_drvh);
       coerced_y = coerce_to_range(new_y, output_psu_y_sp_drvl, output_psu_y_sp_drvh);
@@ -252,9 +252,10 @@ ss zero_field
       }
       
       when(
-        is_within_tolerance(output_psu_x_sp, output_psu_x, output_psu_tolerance) &&
-        is_within_tolerance(output_psu_y_sp, output_psu_y, output_psu_tolerance) &&
-        is_within_tolerance(output_psu_z_sp, output_psu_z, output_psu_tolerance) &&
+	    delay(min_write_delay) &&
+        is_within_tolerance(output_psu_x_sp, output_psu_x_sp_rbv, output_psu_tolerance) &&
+        is_within_tolerance(output_psu_y_sp, output_psu_y_sp_rbv, output_psu_tolerance) &&
+        is_within_tolerance(output_psu_z_sp, output_psu_z_sp_rbv, output_psu_tolerance) &&
 		output_psu_x_ready &&
 		output_psu_y_ready &&
 		output_psu_z_ready

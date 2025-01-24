@@ -21,6 +21,11 @@ PV(int, output_psu_x_sevr, "{P}OUTPUT:X.SEVR", Monitor);
 PV(int, output_psu_y_sevr, "{P}OUTPUT:Y.SEVR", Monitor);
 PV(int, output_psu_z_sevr, "{P}OUTPUT:Z.SEVR", Monitor);
 
+/* Power supply setpoint readbacks */
+PV(double, output_psu_x_sp_rbv, "{P}OUTPUT:X:SP:RBV", Monitor);
+PV(double, output_psu_y_sp_rbv, "{P}OUTPUT:Y:SP:RBV", Monitor);
+PV(double, output_psu_z_sp_rbv, "{P}OUTPUT:Z:SP:RBV", Monitor);
+
 /* PSU Ready statuses */
 PV(int, output_psu_x_ready, "{P}OUTPUT:X:READY", Monitor);
 PV(int, output_psu_y_ready, "{P}OUTPUT:Y:READY", Monitor);
@@ -59,6 +64,7 @@ PV(double, loop_delay, "{P}STATEMACHINE:LOOP_DELAY", Monitor); /* msec */
 PV(double, read_timeout, "{P}STATEMACHINE:READ_TIMEOUT", Monitor); /* sec */
 PV(double, write_timeout, "{P}STATEMACHINE:WRITE_TIMEOUT", Monitor); /* sec */
 PV(double, post_meas_delay, "{P}STATEMACHINE:POST_MEAS_DELAY", Monitor); /* sec */
+PV(double, min_write_delay, "{P}STATEMACHINE:MIN_WRITE_DELAY", Monitor); /* sec */
 
 PV(int, status, "{P}STATUS", NoMon);
 PV(int, at_setpoint, "{P}AT_SETPOINT", NoMon);
