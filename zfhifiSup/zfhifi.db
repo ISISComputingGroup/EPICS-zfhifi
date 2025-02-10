@@ -205,7 +205,7 @@ record(ao, "$(P)STATEMACHINE:MIN_WRITE_DELAY")
 record(mbbi, "$(P)AT_SETPOINT") {
   field(DESC, "Is measurement within tolerance of SP")
   field(ZRST, "No")
-  field(ZRSV, "MAJOR")
+  field(ZRSV, "MINOR")
   field(ONST, "Yes")
   # N/A is set when autofeedback is off
   field(TWST, "N/A")

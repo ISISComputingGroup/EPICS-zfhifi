@@ -21,6 +21,7 @@ record(calcout, "$(P)MAGNETOMETER:$(AXIS):READINGS_UPDATED") {
   field(OUT, "$(P)MAGNETOMETER:$(AXIS):READINGS_READY PP")
   field(OOPT, "Every Time")
   field(FLNK, "$(P)MAGNETOMETER:$(AXIS):RAW")
+  field(ASG, "NOTRAPW")
 }
 
 record(bo, "$(P)MAGNETOMETER:$(AXIS):READINGS_READY") {
