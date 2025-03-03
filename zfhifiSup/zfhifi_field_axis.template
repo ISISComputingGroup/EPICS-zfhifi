@@ -5,6 +5,8 @@ record(calc, "$(P)FIELD:$(AXIS)") {
     field(DESC, "Field $(AXIS) (corrected)")
     field(EGU, "G")
     field(PREC, "5")
+    
+    info(archive, "5.0 VAL")
 }
 
 record(ao, "$(P)FIELD:$(AXIS):SP") {
@@ -24,27 +26,36 @@ record(ai, "$(P)OUTPUT:$(AXIS)") {
     field(HHSV, "MAJOR")
 	field(PREC, "5")
 	field(EGU, "G")
+    
+    info(archive, "5.0 VAL")
 }
 
 record(bi, "$(P)OUTPUT:$(AXIS):READY") {
     field(INP, "$(PSU_$(AXIS)):READY CP MSS")
     field(ZNAM, "Not ready")
     field(ONAM, "Ready")
+    
+    info(archive, "5.0 VAL")
 }
 
 record(ao, "$(P)OUTPUT:$(AXIS):SP") {
-    field(OUT, "$(PSU_$(AXIS)):TARGET:SP PP")
+    field(OUT, "$(PSU_$(AXIS)):ZEROFIELD:SP PP")
     field(DRVL, "$(PSU_$(AXIS)_MIN)")
     field(DRVH, "$(PSU_$(AXIS)_MAX)")
-    field(FLNK, "$(P)OUTPUT:$(AXIS):START")
 	field(PREC, "5")
 	field(EGU, "G")
+    
+    info(archive, "5.0 VAL")
 }
 
-# Have to explicitly tell cryomag to "go"
-# (it doesn't seem to follow usual SP_NO_ACTION pattern)
-record(calcout, "$(P)OUTPUT:$(AXIS):START") {
-    field(A, "1")
-    field(CALC, "A")
-    field(OUT, "$(PSU_$(AXIS)):START:SP PP")
+record(ai, "$(P)OUTPUT:$(AXIS):SP:RBV") {
+    field(INP, "$(PSU_$(AXIS)):ZEROFIELD:SP:RBV CP MSS")
+    field(LOLO, "$(PSU_$(AXIS)_MIN)")
+    field(HIHI, "$(PSU_$(AXIS)_MAX)")
+    field(LLSV, "MAJOR")
+    field(HHSV, "MAJOR")
+	field(PREC, "5")
+	field(EGU, "G")
+    
+    info(archive, "5.0 VAL")
 }

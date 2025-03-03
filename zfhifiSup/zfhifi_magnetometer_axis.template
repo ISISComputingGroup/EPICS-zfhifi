@@ -3,6 +3,8 @@ record(ai, "$(P)MAGNETOMETER:$(AXIS):RAW") {
   field(INP, "$(MAGNETOMETER_$(AXIS)):FIELD CA MSS")
   field(EGU, "G")
   field(PREC, "5")
+    
+  info(archive, "5.0 VAL")
 }
 
 # Tell the group3hallprobe to take a new reading
@@ -19,6 +21,7 @@ record(calcout, "$(P)MAGNETOMETER:$(AXIS):READINGS_UPDATED") {
   field(OUT, "$(P)MAGNETOMETER:$(AXIS):READINGS_READY PP")
   field(OOPT, "Every Time")
   field(FLNK, "$(P)MAGNETOMETER:$(AXIS):RAW")
+  field(ASG, "NOTRAPW")
 }
 
 record(bo, "$(P)MAGNETOMETER:$(AXIS):READINGS_READY") {
@@ -35,29 +38,34 @@ record(ao, "$(P)MAGNETOMETER:$(AXIS):INH_X") {
     field(DESC, "Inhomogenity $(AXIS)_X")
     field(PINI, "YES")
 	field(PREC, "5")
+    info(archive, "5.0 VAL")
 }
 
 record(ao, "$(P)MAGNETOMETER:$(AXIS):INH_Y") {
     field(DESC, "Inhomogenity $(AXIS)_Y")
     field(PINI, "YES")
 	field(PREC, "5")
+    info(archive, "5.0 VAL")
 }
 
 record(ao, "$(P)MAGNETOMETER:$(AXIS):INH_Z") {
     field(DESC, "Inhomogenity $(AXIS)_Z")
     field(PINI, "YES")
 	field(PREC, "5")
+    info(archive, "5.0 VAL")
 }
 
 record(ao, "$(P)MAGNETOMETER:$(AXIS):PERSIST_GRAD") {
     field(DESC, "Persistent gradient $(AXIS)")
     field(PINI, "YES")
 	field(PREC, "5")
+    info(archive, "5.0 VAL")
 }
 
 record(ao, "$(P)MAGNETOMETER:$(AXIS):OFFSET") {
     field(PINI, "YES")
 	field(PREC, "5")
+    info(archive, "5.0 VAL")
 }
 
 record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_INH") {
@@ -76,6 +84,7 @@ record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_INH") {
     field(CALC, "A - ((B*E) + (C*F) + (D*G))")
 	field(PREC, "5")
 	field(EGU, "G")
+    info(archive, "5.0 VAL")
 }
 
 record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_COILS") {
@@ -84,6 +93,7 @@ record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_COILS") {
     field(CALC, "A+B")
 	field(PREC, "5")
 	field(EGU, "G")
+    info(archive, "5.0 VAL")
 }
 
 record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_PERSIST") {
@@ -93,6 +103,7 @@ record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_PERSIST") {
     field(CALC, "A - (B * C)")
 	field(PREC, "5")
 	field(EGU, "G")
+    info(archive, "5.0 VAL")
 }
 
 record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_OFFSET") {
@@ -101,6 +112,7 @@ record(calc, "$(P)MAGNETOMETER:$(AXIS):CORR_OFFSET") {
     field(CALC, "A + B")
 	field(PREC, "5")
 	field(EGU, "G")
+    info(archive, "5.0 VAL")
 }
 
 alias("$(P)MAGNETOMETER:$(AXIS):CORR_OFFSET", "$(P)MAGNETOMETER:$(AXIS)")

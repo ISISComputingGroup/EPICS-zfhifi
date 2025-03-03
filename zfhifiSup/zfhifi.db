@@ -68,7 +68,7 @@ record(ao, "$(P)STATEMACHINE:LOOP_TIME") {
   field(EGU, "ms")
   field(PREC, "0")
   
-  field(HIHI, "5000")
+  field(HIHI, "60000")
   field(LOLO, "1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
@@ -85,8 +85,8 @@ record(ao, "$(P)STATEMACHINE:READ_TIME") {
   field(EGU, "ms")
   field(PREC, "1")
   
-  field(HIHI, "100")
-  field(LOLO, "0")
+  field(HIHI, "500")
+  field(LOLO, "-1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
   
@@ -102,7 +102,7 @@ record(ao, "$(P)STATEMACHINE:WRITE_TIME") {
   field(PREC, "1")
   
   field(HIHI, "100")
-  field(LOLO, "0")
+  field(LOLO, "-1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
   
@@ -120,8 +120,8 @@ record(ao, "$(P)STATEMACHINE:CHECK_TIME") {
   field(EGU, "ms")
   field(PREC, "1")
   
-  field(HIHI, "15000")
-  field(LOLO, "0")
+  field(HIHI, "50000")
+  field(LOLO, "-1")
   field(HHSV, "MINOR")
   field(LLSV, "MINOR")
   
@@ -142,7 +142,7 @@ record(ao, "$(P)STATEMACHINE:LOOP_DELAY")
 {
   field(DESC, "Wait between statemachine loops")
   field(EGU, "ms")
-  field(VAL, "2000")
+  field(VAL, "3000")
   field(PINI, "YES")
   field(PREC, "0")
   
@@ -189,10 +189,23 @@ record(ao, "$(P)STATEMACHINE:WRITE_TIMEOUT")
   info(interest, "LOW")
 }
 
+# Used for:
+#  - lower bound on how long a write can take (to prevent moving on before a write is actioned)
+record(ao, "$(P)STATEMACHINE:MIN_WRITE_DELAY")
+{
+  field(EGU, "s")
+  field(VAL, "1")
+  field(PINI, "YES")
+  field(PREC, "0")
+  
+  info(archive, "5.0 VAL")
+  info(interest, "LOW")
+}
+
 record(mbbi, "$(P)AT_SETPOINT") {
   field(DESC, "Is measurement within tolerance of SP")
   field(ZRST, "No")
-  field(ZRSV, "MAJOR")
+  field(ZRSV, "MINOR")
   field(ONST, "Yes")
   # N/A is set when autofeedback is off
   field(TWST, "N/A")
