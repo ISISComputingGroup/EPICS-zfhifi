@@ -6,7 +6,7 @@ record(calc, "$(P)FIELD:$(AXIS)") {
     field(EGU, "G")
     field(PREC, "5")
     
-    info(archive, "5.0 VAL")
+    info(archive, "60.0 VAL")
 }
 
 record(ao, "$(P)FIELD:$(AXIS):SP") {
@@ -15,7 +15,7 @@ record(ao, "$(P)FIELD:$(AXIS):SP") {
     field(PREC, "5")
     field(UDFS, "NO_ALARM")
     
-    info(archive, "5.0 VAL")
+    info(archive, "60.0 VAL")
 }
 
 record(ai, "$(P)OUTPUT:$(AXIS)") {
@@ -27,7 +27,7 @@ record(ai, "$(P)OUTPUT:$(AXIS)") {
 	field(PREC, "5")
 	field(EGU, "G")
     
-    info(archive, "5.0 VAL")
+    info(archive, "60.0 VAL")
 }
 
 record(bi, "$(P)OUTPUT:$(AXIS):READY") {
@@ -35,7 +35,7 @@ record(bi, "$(P)OUTPUT:$(AXIS):READY") {
     field(ZNAM, "Not ready")
     field(ONAM, "Ready")
     
-    info(archive, "5.0 VAL")
+    info(archive, "60.0 VAL")
 }
 
 record(ao, "$(P)OUTPUT:$(AXIS):SP") {
@@ -45,7 +45,7 @@ record(ao, "$(P)OUTPUT:$(AXIS):SP") {
 	field(PREC, "5")
 	field(EGU, "G")
     
-    info(archive, "5.0 VAL")
+    info(archive, "60.0 VAL")
 }
 
 record(ai, "$(P)OUTPUT:$(AXIS):SP:RBV") {
@@ -57,5 +57,5 @@ record(ai, "$(P)OUTPUT:$(AXIS):SP:RBV") {
 	field(PREC, "5")
 	field(EGU, "G")
     
-    info(archive, "5.0 VAL")
+    info(archive, "60.0 VAL")
 }

@@ -7,7 +7,7 @@ record(bo, "$(P)DISABLE")
   field(ZNAM, "COMMS ENABLED")
   field(ONAM, "COMMS DISABLED")
   
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
 }
 
 # Enable *very* verbose logging in the state machine.
@@ -26,7 +26,7 @@ record(bo, "$(P)DEBUG")
   field(ONAM, "Debug enabled")  
   field(OSV, "MINOR")
   
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
 }
 
 # 1 if new readings are available from the magnetometer but have not yet been consumed
@@ -56,7 +56,7 @@ record(mbbo, "$(P)STATEMACHINE:STATE") {
   field(FFST, "wait_for_voltage_limits")
     
   # Do not archive unless needed for debugging - this PV can change very quickly (~100Hz)
-  # info(archive, "5.0 VAL")
+  # info(archive, "60.0 VAL")
 }
 
 record(bi, "$(P)STATEMACHINE:ACTIVITY") {
@@ -75,7 +75,7 @@ record(ao, "$(P)STATEMACHINE:LOOP_TIME") {
   
   # Only log if changes by more than 5ms, otherwise database could fill with small fluctuations.
   field(ADEL, "5")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(alarm, "ZFHIFI")
   info(interest, "LOW")
 }
@@ -92,7 +92,7 @@ record(ao, "$(P)STATEMACHINE:READ_TIME") {
   
   # Only log if changes by more than 10ms, otherwise database could fill with small fluctuations.
   field(ADEL, "5")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -111,7 +111,7 @@ record(ao, "$(P)STATEMACHINE:WRITE_TIME") {
   
   # Only log if changes by more than 10ms, otherwise database could fill with small fluctuations.
   field(ADEL, "5")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -130,7 +130,7 @@ record(ao, "$(P)STATEMACHINE:CHECK_TIME") {
   
   # Only log if changes by more than 10ms, otherwise database could fill with small fluctuations.
   field(ADEL, "5")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -146,7 +146,7 @@ record(ao, "$(P)STATEMACHINE:LOOP_DELAY")
   field(PINI, "YES")
   field(PREC, "0")
   
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -159,7 +159,7 @@ record(ao, "$(P)STATEMACHINE:POST_MEAS_DELAY")
   field(PINI, "YES")
   field(PREC, "0")
   
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -172,7 +172,7 @@ record(ao, "$(P)STATEMACHINE:READ_TIMEOUT")
   field(PINI, "YES")
   field(PREC, "0")
   
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -185,7 +185,7 @@ record(ao, "$(P)STATEMACHINE:WRITE_TIMEOUT")
   field(PINI, "YES")
   field(PREC, "0")
   
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -198,7 +198,7 @@ record(ao, "$(P)STATEMACHINE:MIN_WRITE_DELAY")
   field(PINI, "YES")
   field(PREC, "0")
   
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(interest, "LOW")
 }
 
@@ -211,7 +211,7 @@ record(mbbi, "$(P)AT_SETPOINT") {
   field(TWST, "N/A")
   
   info(interest, "HIGH")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(alarm, "ZFHIFI")
 }
 
@@ -227,7 +227,7 @@ record(bo, "$(P)AUTOFEEDBACK") {
   $(IFSAVEFEEDBACKMODE) info(autosaveFields_pass0, "VAL")
   
   info(interest, "HIGH")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
 }
 
 alias("$(P)AUTOFEEDBACK", "$(P)AUTOFEEDBACK:SP")
@@ -239,7 +239,7 @@ record(ao, "$(P)FEEDBACK") {
 	field(VAL, "1.0")
   
     info(interest, "HIGH")
-    info(archive, "5.0 VAL")
+    info(archive, "60.0 VAL")
 }
 
 record(ao, "$(P)TOLERANCE") {
@@ -250,7 +250,7 @@ record(ao, "$(P)TOLERANCE") {
   field(PINI, "YES")
   
   info(interest, "HIGH")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
 }
 
 # Any changes to this PV will also need reflecting in the sequencer .st file.
@@ -297,7 +297,7 @@ record(calc, "$(P)FIELD:MAGNITUDE") {
   field(CALC, "SQRT(A*A + B*B + C*C)")
   field(EGU, "G")
   field(PREC, "5")
-  info(archive, "5.0 VAL")
+  info(archive, "60.0 VAL")
   info(alarm, "ZFHIFI")
   info(interest, "HIGH")
   field(ASG, "READONLY")
